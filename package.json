@@ -6,13 +6,21 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "electron": "^10.1.5",
+    "electron-devtools-installer": "^3.1.1",
+    "electron-load-devtool": "^1.2.0",
+    "electron-positioner": "^4.1.0",
+    "menubar": "^9.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.0",
     "web-vitals": "^0.2.4"
   },
+  "main": "window.js",
   "scripts": {
-    "start": "react-scripts start",
+    "start": "start yarn electron && yarn server",
+    "electron": "electron .",
+    "server": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
