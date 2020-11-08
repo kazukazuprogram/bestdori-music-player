@@ -37,7 +37,7 @@
 .App .Container .songcard .left img {
   width: 100px;
   margin-right: 10px;
-  background-image: url("");
+  /* background-image: url(""); */
 }
 
 .App .Container .songcard .right {
