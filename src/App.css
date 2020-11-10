@@ -2,13 +2,14 @@
   margin: 0;
   padding: 0;
 }
+
 .App .Header {
   background-color: #383838;
-	position: fixed;
-	justify-content: space-between;
-	width: 100%;
+  position: fixed;
+  justify-content: space-between;
+  width: 100%;
   height: 50px;
-	z-index: 99;
+  z-index: 99;
 }
 
 .App .Container {
@@ -19,10 +20,32 @@
   flex-direction: column;
 }
 
+.App .Container .songcard .backContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  top: -70px;
+  z-index: 1;
+}
+
+.App .Container .songcard .over {
+  width: 320px;
+  height: 70px;
+  position: relative;
+  top: -10px;
+  left: -10px;
+  z-index: 2;
+}
+
 .App .Container .songcard {
-  border: solid 1px black;
   width: 300px;
-  margin: 10px 5px;
+  height: 50px;
+  position: inherit;
+  user-select: none;
+  background-color: #2d2d2d;
+  color: #d5d5d5;
+  margin: 2.5px 5px;
+  cursor: pointer;
   padding: 10px;
   display: inline;
   overflow: hidden;
@@ -30,14 +53,13 @@
 
 .App .Container .songcard .left {
   float: left;
-  width: 105px;
-  height: 100px;
+  width: 55px;
+  height: 50px;
 }
 
 .App .Container .songcard .left img {
-  width: 100px;
+  width: 50px;
   margin-right: 10px;
-  /* background-image: url(""); */
 }
 
 .App .Container .songcard .right {
@@ -47,9 +69,14 @@
 .App .Footer {
   background-color: #383838;
   position: fixed;
-	justify-content: space-between;
-	width: 100%;
+  justify-content: space-between;
+  width: 100%;
   height: 50px;
   bottom: 0;
-	z-index: 99;
+  z-index: 99;
+}
+
+.App .Footer .seekbar {
+  height: 3px;
+  /* background-color: red; */
 }
