@@ -1,27 +1,32 @@
 import { Component } from "react";
 import "./App.css"
-import next from "./img/next.svg"
-import pause from "./img/pause.svg"
-import play from "./img/play.svg"
-import prev from "./img/prev.svg"
-import loop from "./img/loop.svg"
+import { ReactComponent as Next } from "./img/next.svg"
+import { ReactComponent as Pause } from "./img/pause.svg"
+import { ReactComponent as Play } from "./img/play.svg"
+import { ReactComponent as Prev } from "./img/prev.svg"
+import { ReactComponent as Loop } from "./img/loop.svg"
+import { ReactComponent as Loading } from "./img/loading.svg"
 
 export default class App extends Component {
   constructor(props) {
     super(props)
+
     this.state = {
       songdata: "loading",
       banddata: [],
-      seek: 1,
-      playing: -2
+      seek: 0,
+      playing: -2,
       /*
       -2: 初期
       -1: ローディング
       0: 未割り当て
       1～: ID
       */
+      loop: localStorage["loop"] || false
     }
+    localStorage["loop"] = this.state.loop
     this.audio = new Audio()
+    this.audio.loop = this.state.loop
     this.audio.ontimeupdate = e=>this.setState({seek: e.target.currentTime / e.target.duration})
   }
 
@@ -36,6 +41,7 @@ export default class App extends Component {
       e.target.play()
       this.setState({playing: id})
     })
+    console.log(this.audio)
   }
 
   componentDidMount() {
@@ -52,9 +58,7 @@ export default class App extends Component {
           const jack = "https://bestdori.com/assets/jp/musicjacket/musicjacket"+f+"_rip/assets-star-forassetbundle-startapp-musicjacket-musicjacket"+f+"-"+data[d].jacketImage[0]+"-jacket.png"
           var musicTitle = data[d].musicTitle[0]||data[d].musicTitle[1]
           list.push((
-            <dev
-              className="songcard"
-            >
+            <dev className="songcard">
               <div className="over" data-id={d} onClick={e=>this.play(e.target.getAttribute("data-id"))}/>
               <div className="backContainer">
                 <div className="left">
@@ -73,6 +77,21 @@ export default class App extends Component {
     })
   }
 
+  prev() {}
+
+  play_pause() {
+    this.audio.pause()
+  }
+
+  next() {}
+
+  loop() {
+    this.setState({loop: !this.state.loop})
+    this.audio.loop = !this.state.loop
+    localStorage["loop"] = !this.state.loop
+    console.log("loop" + !this.audio.loop)
+  }
+
   render() {
     return (
       <div className="App">
@@ -83,14 +102,26 @@ export default class App extends Component {
         <div className="Footer">
           <div className={"seekbar " + (this.state.playing!==-1||"loading")} style={{
             width: `${this.state.seek * 100}%`,
-            "background-color": this.state.playing===-1&&"gray"||"red"
+            "background": this.state.playing===-1&&"gray"||"red"
           }}/>
           <div className="controller">
-            <img className="prev" src={prev} />
-            <img className="pause" src={pause} />
-            <img className="play" src={play} />
-            <img className="next" src={next} />
-            <img className="loop" src={loop} />
+            <div className="prev" onClick={this.prev}>
+              <Prev className="prev" />
+            </div>
+            <div className="play_pause" onClick={this.play_pause}>
+              <Play className="play" />
+              <Pause className="pause" />
+              <Loading className="loading" />
+            </div>
+            <div className="next" onClick={this.next}>
+              <Next className="next" />
+            </div>
+            <div className="loop" onClick={this.loop.bind(this)}>
+              <Loop style={{
+                stroke: this.state.loop && "white" || "gray",
+                fill: this.state.loop && "white" || "gray",
+              }} className="loop" />
+            </div>
           </div>
         </div>
       </div>

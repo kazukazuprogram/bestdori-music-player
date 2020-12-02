@@ -4,23 +4,8 @@ let positioner = null;
 let mainWindow = null;
 let tray = null;
 const dev = true;
-// const path = require('path')
-// const fs = require('fs')
-
-// function addext() {
-//   const id = "fmkadmapgofadopljbjfkapdkoienihi"
-//   const extensionDir = path.join(process.env.LOCALAPPDATA, "Google", "Chrome", "User Data", "Default", "Extensions")
-//   const versions = fs.readdirSync(path.join(extensionDir, id)).sort()
-//   const version = versions.pop()
-//   const extdir = path.join(extensionDir, id, version)
-//   BrowserWindow.addDevToolsExtension(extdir)
-// }
-const { default: installExtension, REACT_DEVELOPER_TOOLS } = require('electron-devtools-installer');
 
 app.on('ready', () => {
-  // installExtension(REACT_DEVELOPER_TOOLS)
-  //   .then((name) => console.log(`Added Extension:  ${name}`))
-  //   .catch((err) => console.log('An error occurred: ', err));
   iconPath = __dirname + "/favicon.ico"
   mainWindow = new BrowserWindow({
     width: 360,

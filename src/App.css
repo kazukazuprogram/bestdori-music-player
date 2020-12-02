@@ -1,6 +1,11 @@
 * {
   margin: 0;
   padding: 0;
+  /* overflow-y: scroll; */
+}
+
+*::-webkit-scrollbar {
+  display:none;
 }
 
 .App .Header {
@@ -44,7 +49,7 @@
   user-select: none;
   background-color: #2d2d2d;
   color: #d5d5d5;
-  margin: 2.5px 5px;
+  margin: 2.5px auto;
   cursor: pointer;
   padding: 10px;
   display: inline;
@@ -78,5 +83,22 @@
 
 .App .Footer .seekbar {
   height: 3px;
-  /* background-color: red; */
+}
+
+svg {
+  fill: white;
+}
+
+.App .Footer .controller {
+  color: white;
+}
+
+.App .Footer .controller .play_pause .pause, .App .Footer .controller .play_pause .loading {
+  display: none;
+}
+
+.App .Footer .controller > div {
+  float: left;
+  width: 30px;
+  height: 30px;
 }
