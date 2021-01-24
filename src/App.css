@@ -1,7 +1,13 @@
 * {
   margin: 0;
   padding: 0;
+  scrollbar-width: none;
 }
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
 .App .Header {
   background-color: #383838;
 	position: fixed;
@@ -20,28 +26,54 @@
 }
 
 .App .Container .songcard {
-  border: solid 1px black;
-  width: 300px;
-  margin: 10px 5px;
+  color: white;
+  border: solid 1px gray;
+  border-radius: 5px;
+  width: 320px;
+  height: 50px;
+  margin: 5px auto 0 auto;
   padding: 10px;
   display: inline;
   overflow: hidden;
+  position: relative;
 }
 
 .App .Container .songcard .left {
   float: left;
-  width: 105px;
-  height: 100px;
+  width: 60px;
+  height: 100%;
 }
 
 .App .Container .songcard .left img {
-  width: 100px;
+  width: 50px;
   margin-right: 10px;
   background-image: url("");
 }
 
-.App .Container .songcard .right {
-  size: 0.8em;
+.App .Container .songcard .right .musicTitle {
+  font-size: 0.8em;
+}
+
+.App .Container .songcard .right .bandName {
+  font-size: 0.6em;
+}
+
+.App .Container .songcard .overlay {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 10;
+  /* background-color: rgba(255, 255, 255, 0.1); */
+}
+
+.App .Container .songcard .overlay:hover {
+  transition: background-color .3s;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .App .Footer {
