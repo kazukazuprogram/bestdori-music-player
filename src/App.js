@@ -1,6 +1,8 @@
 import { Component } from "react";
 import "./App.css"
-import LoadingLogo from "./loading.svg"
+import LoadingLogo from "./assets/loading.svg"
+import PlayLogo from "./assets/play.svg"
+import PauseLogo from "./assets/pause.svg"
 
 class SongCard extends Component {
   constructor(props) {
@@ -12,12 +14,14 @@ class SongCard extends Component {
       jacket_url: props.jacket_url,
     }
     this.audio = props.audio
+    this.onplay = props.onplay
   }
 
   play(id) {
+    this.onplay(this.state)
     var id_3 = ("00"+id).slice(-3)
     var url = "https://bestdori.com/assets/jp/sound/bgm"+id_3+"_rip/bgm"+id_3+".mp3"
-    if (this.audio.currentSrc != url) {
+    if (this.audio.currentSrc !== url) {
       document.title = `${this.state.title} - ${this.state.artist}`
       this.audio.src = url
       this.audio.load()
@@ -33,7 +37,7 @@ class SongCard extends Component {
           }}
         ></div>
         <div className="left">
-          <img src={this.state.jacket_url}/>
+          <img alt="" src={this.state.jacket_url}/>
         </div>
         <div className="right">
           <div className="musicTitle">{this.state.title}</div>
@@ -47,7 +51,7 @@ class SongCard extends Component {
 function LoadingScreen() {
   return (
     <div className="loading">
-      <img src={LoadingLogo} width="100px" height="100px"/>
+      <img alt="" src={LoadingLogo} width="100px" height="100px"/>
     </div>
   )
 }
@@ -56,18 +60,48 @@ export default class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      songdata: (<LoadingScreen />),  // componentのlist
+      songdata: <LoadingScreen />,
       fetched_songdata: undefined,
-      fetched_banddata: undefined
+      fetched_banddata: undefined,
+      npJacketURL: undefined,
+      npTitle: undefined,
+      npArtist: undefined,
+      nowPlaying: false,
+      isOnPlay: false
     }
     this.audio = new Audio()
     this.audio.oncanplay = ()=>{
+      this.setState({
+        nowPlaying: true,
+        isOnPlay: true
+      })
       this._play()
+    }
+    this.audio.onended = ()=>{
+      this.setState({nowPlaying: false})
+    }
+    this.audio.onpause = ()=>{
+      this.setState({nowPlaying: false})
+    }
+    this.audio.onplay = ()=>{
+      this.setState({
+        nowPlaying: true,
+        isOnPlay: true
+      })
     }
   }
 
   _play() {
+    this.setState({
+      nowPlaying: true,
+      isOnPlay: true
+    })
     this.audio.play()
+  }
+
+  _pause() {
+    this.setState({nowPlaying: false})
+    this.audio.pause()
   }
 
   updateSongCardContainerWithSearch(q="") {
@@ -88,6 +122,13 @@ export default class App extends Component {
           artist={artist}
           jacket_url={jack}
           audio={this.audio}
+          onplay={e=>{
+            this.setState({
+              npJacketURL: e.jacket_url,
+              npTitle: e.title,
+              npArtist: e.artist
+            })
+          }}
           />))
         }
       }
@@ -133,6 +174,41 @@ export default class App extends Component {
           </div>
         </div>
         <div className="Footer">
+          <div className="footerContainer"
+            style={{
+              visible: (this.state.nowPlaying&&"hidden")||"visible"
+            }}
+          >
+            <div className="image">
+              <img alt="" src={this.state.npJacketURL} style={{
+                visibility: (this.state.npJacketURL&&"visible")||"hidden",
+              }}/>
+              <div className="overlay" style={{
+                visibility: (this.state.npJacketURL&&"visible")||"hidden",
+              }}
+              onMouseDown={()=>{
+                if (this.state.nowPlaying) {
+                  this._pause()
+                } else {
+                  this._play()
+                }
+              }}>
+                <img src={(this.state.nowPlaying&&PauseLogo)||PlayLogo} alt="" className="play-pause-button"
+                  style={{
+                    visible: (this.state.nowPlaying&&"hidden")||"visible"
+                  }}
+                />
+              </div>
+            </div>
+            <div className="info">
+              <div className="npTitle">
+                {this.state.npTitle}
+              </div>
+              <div className="npArtist">
+                {this.state.npArtist}
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );

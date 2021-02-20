@@ -3,7 +3,7 @@ var Positioner = require('electron-positioner')
 let positioner = null;
 let mainWindow = null;
 let tray = null;
-const dev = false;
+const dev = process.argv.indexOf("--dev") != -1;
 let autohide = true;
 
 app.on('ready', () => {
